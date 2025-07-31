@@ -17,7 +17,7 @@ version: '2'
 
 services:
   carma-messenger-ui:
-    image: ${DOCKER_ORG}/carma-messenger-ui:${DOCKER_TAG}
+    image: ${DOCKER_ORG}/carma-messenger-ui-test:${DOCKER_TAG}
     network_mode: host
     container_name: carma-messenger-ui
     environment:
@@ -26,4 +26,5 @@ services:
       - container:carma-config:ro
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock 
+      - /opt/carma/vehicle/calibration/ui/google_map_api_key.env:/var/www/html/google_map_api_key.env:ro
     restart: always
