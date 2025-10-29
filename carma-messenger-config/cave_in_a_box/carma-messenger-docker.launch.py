@@ -23,13 +23,12 @@ def generate_launch_description():
     """
     Launch CARMA Messenger System.
     """
-
-    #Declare the route file folder launch argument
-    route_file_folder = LaunchConfiguration('route_file_folder')
-    declare_route_file_folder = DeclareLaunchArgument(
-        name = 'route_file_folder',
-        default_value='/opt/carma/routes/',
-        description = 'Path of folder on host PC containing route CSV file(s) that can be accessed by plugins; currently only used by emergency_response_vehicle_plugin'
+    # Declare record rosbag launch argument
+    use_rosbag = LaunchConfiguration('use_rosbag')
+    declare_use_rosbag = DeclareLaunchArgument(
+        name = 'use_rosbag',
+        default_value = 'true',
+        description = "Record a ROS2 bag"
     )
 
     # Declare the global_params_override_file launch argument
@@ -41,16 +40,26 @@ def generate_launch_description():
         description = "Path to global file containing the parameters override"
     )
 
+    # Declare the route file folder launch argument
+    route_file_folder = LaunchConfiguration('route_file_folder')
+    declare_route_file_folder = DeclareLaunchArgument(
+        name = 'route_file_folder',
+        default_value='/opt/carma/routes/',
+        description = 'Path of folder on host PC containing route CSV file(s) that can be accessed by plugins'
+    )
+
     # Launch the core carma launch file
     core_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([ get_package_share_directory('carma-messenger'), '/launch/carma-messenger.launch.py']),
         launch_arguments = {
             'route_file_folder' : route_file_folder,
+            'use_rosbag' : use_rosbag,
             'global_params_override_file' : global_params_override_file,
         }.items()
     )
 
     return LaunchDescription([
+        declare_use_rosbag,
         declare_route_file_folder,
         declare_global_params_override_file_arg,
         core_launch

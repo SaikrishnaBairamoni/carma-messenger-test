@@ -15,7 +15,7 @@
 # Docker Compose Spec Version
 services:
   messenger_ros2:
-    image: ${DOCKER_ORG}/carma-messenger-core-test:${DOCKER_TAG}
+    image: ${DOCKER_ORG}/carma-messenger-core:${DOCKER_TAG}
     network_mode: host
     container_name: messenger_ros2
     volumes_from:
@@ -28,7 +28,7 @@ services:
     command: bash -c 'source /opt/carma/install/setup.bash && ros2 launch /opt/carma/vehicle/config/carma-messenger-docker.launch.py'
 
   v2x_ros_driver:
-    image: ${DOCKER_ORG}/v2x-ros-driver-test:${DOCKER_TAG}
+    image: ${DOCKER_ORG}/v2x-ros-driver:${DOCKER_TAG}
     container_name: v2x-ros-driver
     network_mode: host
     volumes_from:
